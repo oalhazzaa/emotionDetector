@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Emotion Detection</title>
+    
+    <style>
+        .header {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 50px;
+            top: 0px;
+            border-bottom: 1px solid black;
+        }
+        .video {
+            margin-top: 60px;
+            border: 3px solid #ccc;
+            width:400px;
+            height:400px;
+        }
+
+    </style>
+
+    
+
+</head>
+<body>
+    <div class="header">
+        <p>EMOTION DETECTION</p>
+    </div>
+    
+    <div class="video">
+        <video id="video" playsinline autoplay="true" audio="false" muted></video>
+
+    </div>
+
+</body>
+<script>
+    // FROM https://www.html5rocks.com/en/tutorials/getusermedia/intro/
+
+    const video = document.getElementById('video'); 
+    const canvas = document.getElementById('cnavs'); 
+    const snap = document.getElementById('snap'); 
+    const errorMsgElement = document.getElementById('ErrorMsg'); 
+
+    const constraints = { 
+        audio: true, 
+        video: { 
+            width: 1280,
+            height: 720
+        }
+    }
+
+    async function init() { 
+        try { 
+            const stream = await navigator.mediaDevices.getUserMedia(constraints); 
+            handleSuccess(stream);
+        }
+        catch(e) { 
+            errorMsgElement.innerHTML = 'navigator.getUserMedia.error: ${e.toString()}'; 
+        }
+    }
+
+    function handleSuccess(stream) { 
+        window.stream = stream; 
+        video.srcObject = stream;
+    }
+    
+    //load init 
+    init(); 
+    var context = canvas.getContext('2d'); 
+    snap.addEventListerner("click", function() {
+        context.drawImage(video, 0, 0, 640, 480);
+    })
+
+    // END from https://www.html5rocks.com/en/tutorials/getusermedia/intro/
+</script>
+</html>

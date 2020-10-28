@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Emotion Detector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+            <h1><a href="">Emotion Dectetor</a></h1>
+        </div>
+
+        <div id="content">
+            <!-- Stream video via webcam -->
+            <div class="video-wrap">
+                <video id="video" playsinline autoplay></video>
+            </div>
+            <div id="display">
+                <!-- Webcam video snapshot -->
+                <canvas id="canvas" width="640" height="480"></canvas>
+            </div>
+            <!-- Trigger canvas web API -->
+            <div class="controller">
+                <button id="snap">Capture</button>
+            </div>
+            <div id="select-file">
+                <form action="/action_page.php">
+                    <input type="file" id="myFile" name="filename">
+                    <input type="submit">
+                </form>
+            </div> 
+            <p></p>
+        </div>
+        
+        <div id="footer">
+            &copy; 2020.
+        </div>
+    </div>
+</body>
+<script>
+    // START from https://www.codegrepper.com/code-examples/html/how+to+make+upload+image+button+in+html
+    'use strict';
+
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const snap = document.getElementById("snap");
+    const errorMsgElement = document.querySelector('span#errorMsg');
+
+    const constraints = {
+        audio: true,
+        video: {
+            width: 1280, height: 720
+        }
+    };
+
+    // Access webcam
+    async function init() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            handleSuccess(stream);
+        } catch (e) {
+            errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
+        }
+    }
+
+    // Success
+    function handleSuccess(stream) {
+        window.stream = stream;
+        video.srcObject = stream;
+    }
+
+    // Load init
+    init();
+
+    // Draw image
+    var context = canvas.getContext('2d');
+    snap.addEventListener("click", function () {
+        context.drawImage(video, 0, 0, 640, 480);
+    });
+
+    const file = document.getElementById("myFile")
+
+    // END from https://www.codegrepper.com/code-examples/html/how+to+make+upload+image+button+in+html
+</script>
+
+</html>

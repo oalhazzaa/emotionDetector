@@ -1,0 +1,60 @@
+body {
+    background-color: white;
+    font-family: Helvetica, Arial, Sans Serif;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+p {
+    clear: both;
+}
+
+#container {
+    background-color: white;
+    clear: both;
+}
+
+#header {
+    text-align: left;
+    background-color: white;
+    color: black;
+    border-bottom: 1px solid lightgray;
+}
+
+#content {
+    margin: 20px;
+}
+
+.video-wrap, #video{
+    float: left;
+    width: 500px;
+    height: 280px;
+}
+
+
+#display, #canvas {
+    float: left;
+    width: 500px;
+    height: 280px;
+    margin-left: 5px;
+}
+
+.controller {
+    clear: both;
+    float: left;
+}
+
+#select-file {
+    float: left;
+}
+
+#footer {
+    clear: both;
+    text-align: right;
+    border-top: 1px solid lightgray;
+    padding: 10px;
+    font-size: 12px;
+}

@@ -11,7 +11,7 @@
 <body>
     <div id="container">
         <div id="header">
-            <h1><a href="">Emotion Dectetor</a></h1>
+            <h1><a href="">Emotion Detector</a></h1>
         </div>
 
         <div id="content">
@@ -28,12 +28,9 @@
                 <button id="snap">Capture</button>
             </div>
             <div id="select-file">
-                <form action="/action_page.php">
-                    <input type="file" id="myFile" name="filename">
-                    <input type="submit">
-                </form>
+                <input type="file" id="myFile" name="filename">
+                <input type="submit" id="detectionRequest" onclick="showImage();" >
             </div> 
-            <p></p>
         </div>
         
         <div id="footer">
@@ -48,10 +45,11 @@
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const snap = document.getElementById("snap");
+    const display = document.getElementById("display");
     const errorMsgElement = document.querySelector('span#errorMsg');
 
     const constraints = {
-        audio: true,
+        audio: false,
         video: {
             width: 1280, height: 720
         }
@@ -96,10 +94,33 @@
             }
             img.src = event.target.result;
         }
-        reader.readAsDataURL(e.target.files[0]);     
+        reader.readAsDataURL(e.target.files[0]); 
     }
 
-    
+    function showImage(){
+        let img = document.createElement("img");
+        img.src = "Screen Shot 2020-10-28 at 6.42.55 PM.png"
+        img.style.width = "510px"
+        img.style.height = "280px"
+        display.innerHTML = ""
+        display.appendChild(img);
+        //document.getElementById('loadingImage').style.visibility="visible";
+    }
+/*
+    let fakeImageLoader = document.getElementById('detectionRequest');
+    fakeImageLoader.addEventListener('change', handleImage, false);
+    function handleImage(e){
+        var reader = new FileReader();
+        reader.onload = function(event){
+            var img = new Image();
+            img.onload = function(){
+                context.drawImage(img,0,0, 640, 480);
+            }
+            img.src = event.target.result;
+        }
+        reader.readAsDataURL("IMG_2447.JPG");     
+    }
+    */
 </script>
 
 </html>

@@ -82,9 +82,24 @@
         context.drawImage(video, 0, 0, 640, 480);
     });
 
-    const file = document.getElementById("myFile")
-
     // END from https://www.codegrepper.com/code-examples/html/how+to+make+upload+image+button+in+html
+
+    // From http://jsfiddle.net/influenztial/qy7h5/
+    var imageLoader = document.getElementById('myFile');
+    imageLoader.addEventListener('change', handleImage, false);
+    function handleImage(e){
+        var reader = new FileReader();
+        reader.onload = function(event){
+            var img = new Image();
+            img.onload = function(){
+                context.drawImage(img,0,0, 640, 480);
+            }
+            img.src = event.target.result;
+        }
+        reader.readAsDataURL(e.target.files[0]);     
+    }
+
+    
 </script>
 
 </html>

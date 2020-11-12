@@ -2,51 +2,99 @@
 <html>
 
 <head>
-    <title>Emotion Detector</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" type="text/css" href="style.css" />
-
+    <title>Emotion Detector</title>
 </head>
 
 <body>
-    <div id="container">
-        <div id="header">
-            <h1><a href="">Emotion Detector</a></h1>
+    <div id="header">
+        <div class="nav">
+            <div class="logo">Emotion Detector</div>
+            <div class="controls-container">
+                <div class="links">
+                    <a href="">Home</a>
+                    <a href="">FAQ</a>
+                </div>
+                <div class="switch-container">
+                    <label class="switch" for="checkbox">
+                        <input type="checkbox" id="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
         </div>
+    </div>
+    <div id="main">
+        <div id="box-container">
+            <div id="box-1">
+                <div id="content">
+                    <div>
+                        <h3>Quick Tips:</h3>
+                        <ul>
+                            <li>Capture to take a photo</li>
+                            <li>Choose File to upload a photo/video</li>
+                            <li>Submit to upload photo/video for emotion detection</li>
+                        </ul>
+                    </div>
+                    <!-- Stream video via webcam -->
+                    <div id="media-container">
+                        <div class="video-wrap">
+                            <video id="video" playsinline autoplay></video>
+                        </div>
+                        <div id="display">
+                            <!-- Webcam video snapshot -->
+                            <canvas id="canvas" width="560" height="420"></canvas>
+                        </div>
+                    </div>
+                    <div id="buttons-container">
+                        <!-- Trigger canvas web API -->
+                        <div class="controller">
+                            <button class="pill-button" id="snap">Capture</button>
+                        </div>
+                        <div id="select-file">
+                            <input class="pill-button" type="file" id="myFile" name="filename">
+                            <input class="pill-button" type="submit" id="detectionRequest" onclick="showImage();">
+                        </div>
+                    </div>
 
-        <div id="content">
-            <div>
-                <h3>How to Use:</h3>
-                <ol>
-                    <li>Capture a photo or upload an image or video</li>
-                    <li>Click submit for emotion detection</li>
-                    <li>Refresh page for additional submissions</li>
-                </ol>
+                </div>
             </div>
-            <!-- Stream video via webcam -->
-            <div class="video-wrap">
-                <video id="video" playsinline autoplay></video>
-            </div>
-            <div id="display">
-                <!-- Webcam video snapshot -->
-                <canvas id="canvas" width="640" height="480"></canvas>
-            </div>
-            <!-- Trigger canvas web API -->
-            <div class="controller">
-                <button id="snap">Capture</button>
-            </div>
-            <div id="select-file">
-                <input type="file" id="myFile" name="filename">
-                <input type="submit" id="detectionRequest" onclick="showImage();" >
-            </div> 
         </div>
-        
-        <div id="footer">
-            &copy; 2020.
-        </div>
+    </div>
+    <div id="footer">
+        &copy; 2020.
     </div>
 </body>
 <script>
+    //switch between light and dark style variables
+    const toggleSwitch = document.querySelector('.switch-container input[type="checkbox"]');
+    function switchTheme(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            // localStorage.setItem('theme', 'dark'); not working atm.
+        }
+        else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            // localStorage.setItem('theme', 'light'); not working atm.
+        }
+    }
+    toggleSwitch.addEventListener('change', switchTheme, false);
+
+    //not working atm.
+    // //pull up saved user pref if saved
+    // const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+    // if (currentTheme) {
+    //     document.documentElement.setAttribute('data-theme', currentTheme);
+
+    //     if (currentTheme === 'dark') {
+    //         toggleSwitch.checked = true;
+    //     }
+    // }
+
+
     // START from https://www.codegrepper.com/code-examples/html/how+to+make+upload+image+button+in+html
     'use strict';
 
@@ -85,6 +133,7 @@
     // Draw image
     var context = canvas.getContext('2d');
     snap.addEventListener("click", function () {
+        context.clearRect(0, 0, canvas.width, canvas.height);
         context.drawImage(video, 0, 0, 640, 480);
     });
 
@@ -93,19 +142,20 @@
     // From http://jsfiddle.net/influenztial/qy7h5/
     var imageLoader = document.getElementById('myFile');
     imageLoader.addEventListener('change', handleImage, false);
-    function handleImage(e){
+    function handleImage(e) {
         var reader = new FileReader();
-        reader.onload = function(event){
+        reader.onload = function (event) {
             var img = new Image();
-            img.onload = function(){
-                context.drawImage(img,0,0, 640, 480);
+            img.onload = function () {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0, 640, 480);
             }
             img.src = event.target.result;
         }
-        reader.readAsDataURL(e.target.files[0]); 
+        reader.readAsDataURL(e.target.files[0]);
     }
 
-    function showImage(){
+    function showImage() {
         let img = document.createElement("img");
         img.src = "Screen Shot 2020-10-28 at 6.42.55 PM.png"
         img.style.width = "510px"
@@ -115,20 +165,20 @@
         //document.getElementById('loadingImage').style.visibility="visible";
     }
 /*
-    let fakeImageLoader = document.getElementById('detectionRequest');
-    fakeImageLoader.addEventListener('change', handleImage, false);
-    function handleImage(e){
-        var reader = new FileReader();
-        reader.onload = function(event){
-            var img = new Image();
-            img.onload = function(){
-                context.drawImage(img,0,0, 640, 480);
-            }
-            img.src = event.target.result;
-        }
-        reader.readAsDataURL("IMG_2447.JPG");     
-    }
-    */
+                    let fakeImageLoader = document.getElementById('detectionRequest');
+                    fakeImageLoader.addEventListener('change', handleImage, false);
+                    function handleImage(e){
+                        var reader = new FileReader();
+                        reader.onload = function(event){
+                            var img = new Image();
+                            img.onload = function(){
+                                context.drawImage(img,0,0, 640, 480);
+                            }
+                            img.src = event.target.result;
+                        }
+                        reader.readAsDataURL("IMG_2447.JPG");
+                    }
+                    */
 </script>
 
 </html>

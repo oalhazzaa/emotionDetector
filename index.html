@@ -155,30 +155,44 @@
         reader.readAsDataURL(e.target.files[0]);
     }
 
-    function showImage() {
-        let img = document.createElement("img");
-        img.src = "Screen Shot 2020-10-28 at 6.42.55 PM.png"
-        img.style.width = "510px"
-        img.style.height = "280px"
-        display.innerHTML = ""
-        display.appendChild(img);
-        //document.getElementById('loadingImage').style.visibility="visible";
+    function removeAllChildNodes(parent) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
     }
-/*
-                    let fakeImageLoader = document.getElementById('detectionRequest');
-                    fakeImageLoader.addEventListener('change', handleImage, false);
-                    function handleImage(e){
-                        var reader = new FileReader();
-                        reader.onload = function(event){
-                            var img = new Image();
-                            img.onload = function(){
-                                context.drawImage(img,0,0, 640, 480);
-                            }
-                            img.src = event.target.result;
-                        }
-                        reader.readAsDataURL("IMG_2447.JPG");
-                    }
-                    */
+
+    //submit button is clicked remove content
+    function submitImage() {
+        const contentContainer = document.querySelector('#content');
+        removeAllChildNodes(contentContainer);
+    }
+
+    //add divs for result content
+    function displayResults() {
+        const contentContainer = document.querySelector('#content');
+        let resultTitle = 'Emotion Detected: ';
+        //if happy
+            //set title
+            resultTitle += 'Happy!';
+            //happy resources
+        //if sad
+        //if fear
+        //if disgust
+        //if angry
+        //if neutral
+        //if surprise
+
+        //showProcessedImg
+        //append title
+        //append resources
+    }
+
+    function showImage() {
+        submitImage();
+        displayResults();
+        
+    }
+
 </script>
 
 </html>
